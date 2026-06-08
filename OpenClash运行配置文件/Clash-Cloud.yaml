@@ -42,7 +42,7 @@ proxy-providers:
     url: "此处填写机场订阅地址"    #将订阅地址替换双引号中间的文字；
     type: http
     interval: 86400
-    exclude-filter: 流量|账号|剩余|到期|过期|测试|试用|TG|群|官网|Expire|APP|官方|异常|邮箱|防|卸载|@|距离     
+    exclude-filter: 流量|账号|剩余|到期|过期|测试|试用|TG|群|官网|Expire|APP|官方|异常|邮箱|防|卸载|@|距离     #排除无效节点；可以按照格式添加需要排除的无效节点
     health-check:
       enable: true
       url: https://www.gstatic.com/generate_204
