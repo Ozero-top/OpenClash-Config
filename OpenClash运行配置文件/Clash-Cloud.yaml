@@ -1,6 +1,6 @@
 # ================================================================
 # 配置名称：OpenClash 终极精简与性能优化融合版
-# 版本号：V0.2.0
+# 版本号：V0.2.1
 # 内核要求：Mihomo (Meta) Kernel
 # 核心优化：
 #   1. [完美闭环] 订阅源与自动策略组全面对齐为 lazy: true（懒加载），彻底修复自动组不切换问题。
@@ -10,6 +10,7 @@
 #   5. [隐私防漏] 保持拦截 UDP 3478 端口与 STUN 域名，物理阻断 WebRTC 泄露真实 IP。
 #   6. [风控闭环] 维持金融、支付、政务类域名的 Fake-IP 过滤与强制直连规则，解决银行风控。
 #   7. [排除节点] 修复排除无效节点。 
+#   8. [支持APP] 修改格式兼容ClashMi 手机app使用
 # ================================================================
 
 # ------------------------
@@ -38,22 +39,8 @@ tcp-concurrent: true
 # 1. 机场订阅配置
 proxy-providers:
 
-  机场名称:   #机场名字可修改为实际的机场名称；
-    url: "此处填写机场订阅地址"    #将订阅地址替换双引号中间的文字；
-    type: http
-    interval: 86400
-    exclude-filter: 流量|账号|剩余|到期|过期|测试|试用|TG|群|官网|Expire|APP|官方|异常|邮箱|防|卸载|@|距离     #排除无效节点；可以按照格式添加需要排除的无效节点
-    health-check:
-      enable: true
-      url: https://www.gstatic.com/generate_204
-      interval: 300
-      timeout: 3000
-      expected-status: 204
-      lazy: false      
- 
-# 使用单个机场订阅可以删除以下代码； 
-  机场名称2:
-    url: "此处填写机场订阅地址"
+  我的主力机场:   
+    url: "https://sub.yourprovider.com/link/abcdefg123456" # 填入你的真实订阅链接
     type: http
     interval: 86400
     exclude-filter: 流量|账号|剩余|到期|过期|测试|试用|TG|群|官网|Expire|APP|官方|异常|邮箱|防|卸载|@|距离     
@@ -63,7 +50,23 @@ proxy-providers:
       interval: 300
       timeout: 3000
       expected-status: 204
-      lazy: false     
+      lazy: false
+      
+# 使用ClashMI请删除下面备用机场整段代码↓↓↓
+# 使用单个机场订阅可以删除以下代码； 
+  备用机场:   
+    url: "https://sub.yourprovider.com/link/abcdefg123456" # 填入你的真实订阅链接
+    type: http
+    interval: 86400
+    exclude-filter: 流量|账号|剩余|到期|过期|测试|试用|TG|群|官网|Expire|APP|官方|异常|邮箱|防|卸载|@|距离     
+    health-check:
+      enable: true
+      url: https://www.gstatic.com/generate_204
+      interval: 300
+      timeout: 3000
+      expected-status: 204
+      lazy: false  
+# 使用ClashMI请删除下面备用机场整段代码↑↑↑
       
 # 2. 静态基础节点
 proxies:
