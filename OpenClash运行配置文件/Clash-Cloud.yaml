@@ -1,17 +1,20 @@
-# ================================================================
-# 配置名称：OpenClash 终极精简与性能优化融合版
-# 版本号：V0.2.1
-# 内核要求：Mihomo (Meta) Kernel
-# 核心优化：
-#   1. [完美闭环] 订阅源与自动策略组全面对齐为 lazy: true（懒加载），彻底修复自动组不切换问题。
-#   2. [测速解耦] 移除所有静态策略组内冗余的测速，100% 共享底层 proxy-providers 全局缓存，消除重复测速。
-#   3. [极低开销] 保持“按需唤醒”状态。未命中对应规则时绝不发起后台连接，暴降路由器 CPU 开销。
+# ====================================================================
+# 配置名称：OpenClash 跨机场/区域全自动流控与延迟优化融合版
+# 版本号：V0.2.2 (2026.06.30 修复版)
+# 内核要求：Mihomo (Meta) Kernel 专属（内含 AND/WebRTC 等高级语法）
+# 
+# 核心架构逻辑：
+#   1. [解耦绑定] 修正了策略组必须硬性声明 `use: [机场名]` 的内核级规范，
+#                 将底层 `proxy-providers` 资源池与上层筛选组完美对接，彻底消除启动闪退。
+#   2. [区域自治] 独创“业务 → 区域故障转移 (fallback) → 区域自动/手动”三层嵌套架构。
+#                 完美实现：既能享受全局/单区域内全自动最低延迟切换，又保留了各地区手动挑选的自由度。
+#   3. [完美闭环] 订阅源与自动策略组全面对齐为 lazy: true（懒加载），
+#                 保持“按需唤醒”状态。未命中对应规则时绝不发起后台连接，暴降路由器 CPU 开销。
 #   4. [极致体验] 保留 30ms 灵敏切换容差（tolerance: 30），流量唤醒时，秒切到当前延迟最低的优质节点。
-#   5. [隐私防漏] 保持拦截 UDP 3478 端口与 STUN 域名，物理阻断 WebRTC 泄露真实 IP。
-#   6. [风控闭环] 维持金融、支付、政务类域名的 Fake-IP 过滤与强制直连规则，解决银行风控。
-#   7. [排除节点] 修复排除无效节点。 
-#   8. [支持APP] 修改格式兼容ClashMi 手机app使用
-# ================================================================
+#   5. [隐私防漏] 保持物理拦截 UDP 3478 端口与 STUN 域名，从底层阻断 WebRTC 泄露国内真实 IP。
+#   6. [风控闭环] 维持金融、支付、政务类域名的 Fake-IP 过滤与强制直连规则，完美解决银行风控与 App 报错。
+#   7. [精细排除] 修复并强化 `exclude-filter` 正则，自动剔除流量、过期、官网等无效干扰节点。
+# ====================================================================
 
 # ------------------------
 # 基础端口/全局配置
@@ -39,7 +42,7 @@ tcp-concurrent: true
 # 1. 机场订阅配置
 proxy-providers:
 
-  我的主力机场:   
+  主力机场:   #此处名称不能修改；非要修改要同步修改【核心策略组逻辑】下面“use：”的名称
     url: "https://sub.yourprovider.com/link/abcdefg123456" # 填入你的真实订阅链接
     type: http
     interval: 86400
@@ -54,7 +57,7 @@ proxy-providers:
       
 # 使用ClashMI请删除下面备用机场整段代码↓↓↓
 # 使用单个机场订阅可以删除以下代码； 
-  备用机场:   
+  备用机场:  #此处名称不能修改；非要修改要同步修改【核心策略组逻辑】下面“use：”的名称 
     url: "https://sub.yourprovider.com/link/abcdefg123456" # 填入你的真实订阅链接
     type: http
     interval: 86400
@@ -231,6 +234,9 @@ proxy-groups:
     interval: 300
     timeout: 3000          
     clear-override: true
+    use:
+      - 主力机场
+      - 备用机场
     include-all: true
     tolerance: 30
     lazy: true                # 策略组保持懒加载，无流量不干活
@@ -256,6 +262,9 @@ proxy-groups:
     interval: 300
     timeout: 3000          
     clear-override: true
+    use:
+      - 主力机场
+      - 备用机场
     include-all: true
     tolerance: 30
     lazy: true                
@@ -281,6 +290,9 @@ proxy-groups:
     interval: 300
     timeout: 3000
     clear-override: true
+    use:
+      - 主力机场
+      - 备用机场
     include-all: true
     tolerance: 30
     lazy: true
@@ -306,6 +318,9 @@ proxy-groups:
     interval: 300
     timeout: 3000
     clear-override: true
+    use:
+      - 主力机场
+      - 备用机场
     include-all: true
     tolerance: 30
     lazy: true
@@ -331,6 +346,9 @@ proxy-groups:
     interval: 300
     timeout: 3000
     clear-override: true
+    use:
+      - 主力机场
+      - 备用机场
     include-all: true
     tolerance: 30
     lazy: true
@@ -356,6 +374,9 @@ proxy-groups:
     interval: 300
     timeout: 3000
     clear-override: true
+    use:
+      - 主力机场
+      - 备用机场
     include-all: true
     tolerance: 30
     lazy: true
@@ -381,6 +402,9 @@ proxy-groups:
     interval: 300
     timeout: 3000
     clear-override: true
+    use:
+      - 主力机场
+      - 备用机场
     include-all: true
     tolerance: 30
     lazy: true
@@ -406,6 +430,9 @@ proxy-groups:
     interval: 300
     timeout: 3000
     clear-override: true
+    use:
+      - 主力机场
+      - 备用机场
     include-all: true
     tolerance: 30
     lazy: true
@@ -431,6 +458,9 @@ proxy-groups:
     interval: 300
     timeout: 3000
     clear-override: true
+    use:
+      - 主力机场
+      - 备用机场
     include-all: true
     tolerance: 30
     lazy: true
