@@ -372,3 +372,8 @@ config dns_servers
 	option ip 'doh.mullvad.net/dns-query'
 	option type 'https'
 	option disable_ipv6 '0'
+
+config authentication
+	option enabled '0'
+	option username 'Clash'
+	option password '12345678'
