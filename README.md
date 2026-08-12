@@ -33,7 +33,7 @@
 # 
 ✳️先打包下载本项目文件，OpenClash系统配置文件里面的openclash，单独下载会变成.txt后缀名，请直接删除.txt即可
 # 
-## ⑴ 替换OpenClash系统配置文件
+## ⑴ 替换OpenClash插件配置文件
 #### ① iStoreOS系统通过左侧菜单  [服务] - [易有云文件管理器] -  [本地文件管理器]
 #### 找到文件路径 /etc/config 直接上传 openclash 文件覆盖替换
 #### ② OpenWRT系统请通过SSH工具：MobaXterm/FinalShell 链接路由器后台
