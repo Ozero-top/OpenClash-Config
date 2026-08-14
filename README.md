@@ -40,6 +40,7 @@
 #### 在工具左侧文件管理器 找到文件路径 /etc/config 直接上传 openclash 文件覆盖替换
 
 ## ⑵ 上传yaml运行配置文件/修改机场订阅URL
+#### 免去繁杂的手动设置，访问[Clash配置文件一键生成器](https://github.com/Ozero-top/OpenClash-Online-YAML-Generator)
 #### ① 上传yaml运行配置文件
 #### 软路由系统通过左侧菜单  [服务] - [OpenClash] -  [运行状态] 选项主页
 #### 找到 [配置文件] 选项窗口 点击空白处或者点击右下方 ➕ 上传 Clash-Cloud.yaml 文件
