@@ -75,7 +75,7 @@ proxy-providers:
 # 墙裂推荐2-良心云  [【点击进入】](https://xn--9kqz23b19z.com/#/register?code=BFJnlYB0)  - 月付低至6元；年付低至72元；🚀 三网超低延迟，畅享极速网络体验；支持同时在线20台设备使用；高达3Gbps带宽，晚高峰观看8K 60fps不卡顿；解锁三大流媒体和HK电视台<br>
 # 
 # 致谢
-### ● [【安格视界】](https://github.com/liandu2024/clash) 提供Yaml源码文件
+### ● [【liandu2024】](https://github.com/liandu2024/clash) 提供Yaml源码文件
 ### ●  Clash / Mihomo / sing-box 生态项目与规则集作者 
 
 
