@@ -1,4 +1,4 @@
-# 现已部署 免去繁杂的手动设置，[Clash配置文件一键生成器](https://github.com/Ozero-top/OpenClash-Online-YAML-Generator) 点击浏览💙
+# 现已部署 免去繁杂的手动设置，[Clash (.yaml)规则文件一键生成器](https://github.com/Ozero-top/OpenClash-Online-YAML-Generator) 点击浏览💙
 # 喜欢折腾的可以下载配置文件 手动设置。
 # 一键生成器有如下功能
 ### 🔲 链式代理 - 独立节点输入模式：允许用户通过独立的表单卡片逐个输入或粘贴前置中转代理节点，支持为每个节点单独指定或自动识别国家/地区标签，并结合网段或指定单 IP 进行精准分流。 
