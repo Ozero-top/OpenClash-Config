@@ -1,6 +1,6 @@
-# Zashboard Soft UI 主题设置包
+# Zashboard Soft UI 主题设置说明
 
-### ⚠️注意：此主题只适配本规则文件组策略分组；其他规则未适配。
+### ⚠️注意：此主题只适配本项目规则文件组策略分组；其他规则未适配。
 
 `ZashBoard-Soft_UI.json` 是 [Zashboard](https://github.com/Zephyruso/zashboard)（Clash / sing-box 面板）的**面板设置快照**，一键导入即可获得调校好的 Soft UI（新拟物浮雕）界面与全套个性化配置。
 
