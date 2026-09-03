@@ -1,6 +1,6 @@
 # Zashboard Soft UI 主题设置包
 
-`zashboard.json` 是 [Zashboard](https://github.com/Zephyruso/zashboard)（Clash / sing-box 面板）的**面板设置快照**，一键导入即可获得调校好的 Soft UI（新拟物浮雕）界面与全套个性化配置。
+`ZashBoard-Soft_UI.json` 是 [Zashboard](https://github.com/Zephyruso/zashboard)（Clash / sing-box 面板）的**面板设置快照**，一键导入即可获得调校好的 Soft UI（新拟物浮雕）界面与全套个性化配置。
 
 ## 内容一览
 
@@ -17,16 +17,15 @@
 ### 方式一：面板内从文件导入（推荐）
 
 1. 打开 Zashboard 面板（如 `http://192.168.100.254:9090/ui/zashboard/`）
-2. 进入 **设置 → 常规设置**
-3. 找到 **导入设置**，选择 **从文件导入**
-4. 选中本目录的 `zashboard.json`
-5. 在「导入的设置将覆盖以下本地设置」确认框中点击 **应用**
-6. 完成。若界面未自动刷新，按 `Ctrl + F5` 强制刷新浏览器
+2. 进入 **设置 → 面板**
+3. 找到 **面板配置**，点击右侧**⚙️**，弹窗-选择 **从文件导入**
+4. 选中下载好的 `ZashBoard-Soft_UI.json` 导入即可
+5.  完成。若界面未自动刷新，按 `Ctrl + F5` 强制刷新浏览器
 
 ### 方式二：从 URL 导入（可选，便于多设备同步）
 
-1. 将 `zashboard.json` 放到一个可公网/内网访问的 URL（如 GitHub Raw、面板 ui 目录、本地 HTTP 服务）
-2. 面板内 **设置 → 常规设置 → 导入设置 → 从 URL 导入**，粘贴地址确认
+1. 复制 `https://raw.githubusercontent.com/Ozero-top/OpenClash-Config/refs/heads/main/ZashBoard%E4%B8%BB%E9%A2%98/ZashBoard-Soft_UI.json` 也可放到一个可公网/内网访问的 URL（如 GitHub Raw、面板 ui 目录、本地 HTTP 服务）
+2. 面板内 **设置 → 面本配置 → 点击右侧⚙️→ 弹窗-选择 **从 URL 导入**
 3. 可选：开启 **自动导入**，每次打开面板时自动从该 URL 拉取，内容有变化时自动重新导入并刷新
 
 > 注意：URL 方式要求该地址允许跨域（CORS），否则会被浏览器拦截。
@@ -35,7 +34,7 @@
 
 - 导入只覆盖**面板设置**（浏览器 localStorage），不会修改 Clash 内核配置
 - 导入前建议先在面板内 **导出设置** 备份一份当前配置，方便回滚
-- 「自定义 CSS」相关增强仅在**新版面板**（2026-08-31 之后的版本）生效；旧版导入会静默忽略，无任何影响
+- 「自定义 CSS」相关增强仅在**新版面板**（2026-08-31 之后的版本 3.25.0 4a7e06e）生效；旧版导入会静默忽略，无任何影响
 - **切勿**在面板的「自定义主题」编辑器里重新保存 `Soft UI 浅色` / `Soft UI 深色` 这两个主题——编辑器会剥离主题内的注入样式，浮雕效果将丢失，只能重新导入本文件找回
 
 ## 文件格式说明
