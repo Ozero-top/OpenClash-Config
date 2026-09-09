@@ -45,8 +45,32 @@
 #### 找到文件路径 /etc/config 直接上传 openclash 文件覆盖替换
 #### ② OpenWRT系统请通过SSH工具：MobaXterm/FinalShell 链接路由器后台
 #### 在工具左侧文件管理器 找到文件路径 /etc/config 直接上传 openclash 文件覆盖替换
+## ⚠️无SSH工具或者文件管理器插件的 可以在终端输入以下命令 在线更新
+## ⚠️注意要区分设备架构  
+### 一键下载并覆盖命令
+### 在 OpenWrt 终端中运行以下命令：
+#### X86架构设备：
+```bash
+curl -fL -o /etc/config/openclash "https://raw.githubusercontent.com/Ozero-top/OpenClash-Config/clash/Configuration/X86/openclash" && reload_config
+```
+### 如果需要下载完成后自动重启 OpenClash 服务，可直接运行带重启的组合命令：
 
-## ⑵ 上传yaml运行配置文件/修改机场订阅URL
+```bash
+curl -fL -o /etc/config/openclash "https://raw.githubusercontent.com/Ozero-top/OpenClash-Config/clash/Configuration/X86/openclash" && reload_config && /etc/init.d/openclash restart
+```
+
+### ARM64架构设备（无线路由改软路由）：
+```bash
+curl -fL -o /etc/config/openclash "https://raw.githubusercontent.com/Ozero-top/OpenClash-Config/refs/heads/clash/Configuration/arm64/openclash" && reload_config
+```
+### 如果需要下载完成后自动重启 OpenClash 服务，可直接运行带重启的组合命令：
+
+```bash
+curl -fL -o /etc/config/openclash "https://raw.githubusercontent.com/Ozero-top/OpenClash-Config/refs/heads/clash/Configuration/arm64/openclash" && reload_config && /etc/init.d/openclash restart
+```
+
+
+## ⑵ 上传yaml运规则文件/修改机场订阅URL
 #### 免去繁杂的手动设置，访问[Clash配置文件一键生成器](https://github.com/Ozero-top/OpenClash-Online-YAML-Generator)
 #### ① 上传yaml运行配置文件
 #### 软路由系统通过左侧菜单  [服务] - [OpenClash] -  [运行状态] 选项主页
