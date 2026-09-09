@@ -50,23 +50,40 @@
 ### 一键下载并覆盖命令
 ### 在 OpenWrt 终端中运行以下命令：
 #### X86架构设备：
+#### [GitHub直连]
 ```bash
 curl -fL -o /etc/config/openclash "https://raw.githubusercontent.com/Ozero-top/OpenClash-Config/clash/Configuration/X86/openclash" && reload_config
 ```
+#### [国内直连]
+```bash
+curl -fL -o /etc/config/openclash "https://gh.llkk.cc/https://raw.githubusercontent.com/Ozero-top/OpenClash-Config/clash/Configuration/X86/openclash" && reload_config
+```
 ### 如果需要下载完成后自动重启 OpenClash 服务，可直接运行带重启的组合命令：
-
+#### [GitHub直连]
 ```bash
 curl -fL -o /etc/config/openclash "https://raw.githubusercontent.com/Ozero-top/OpenClash-Config/clash/Configuration/X86/openclash" && reload_config && /etc/init.d/openclash restart
 ```
-
+#### [国内直连]
+```bash
+curl -fL -o /etc/config/openclash "https://gh.llkk.cc/https://raw.githubusercontent.com/Ozero-top/OpenClash-Config/clash/Configuration/X86/openclash" && reload_config && /etc/init.d/openclash restart
+```
 ### ARM64架构设备（无线路由改软路由）：
+#### [GitHub直连]
 ```bash
 curl -fL -o /etc/config/openclash "https://raw.githubusercontent.com/Ozero-top/OpenClash-Config/refs/heads/clash/Configuration/arm64/openclash" && reload_config
 ```
+#### [国内直连]
+```bash
+curl -fL -o /etc/config/openclash "https://gh.llkk.cc/https://raw.githubusercontent.com/Ozero-top/OpenClash-Config/refs/heads/clash/Configuration/arm64/openclash" && reload_config
+```
 ### 如果需要下载完成后自动重启 OpenClash 服务，可直接运行带重启的组合命令：
-
+#### [GitHub直连]
 ```bash
 curl -fL -o /etc/config/openclash "https://raw.githubusercontent.com/Ozero-top/OpenClash-Config/refs/heads/clash/Configuration/arm64/openclash" && reload_config && /etc/init.d/openclash restart
+```
+#### [国内直连]
+```bash
+curl -fL -o /etc/config/openclash "https://gh.llkk.cc/https://raw.githubusercontent.com/Ozero-top/OpenClash-Config/refs/heads/clash/Configuration/arm64/openclash" && reload_config && /etc/init.d/openclash restart
 ```
 
 
