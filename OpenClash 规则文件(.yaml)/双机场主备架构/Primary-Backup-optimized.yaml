@@ -1,13 +1,11 @@
-
 # ================================================================
-#   Primary-Backup-optimized.yaml  v3.0.00
-#   优化目标：6 维度评分均 90+
+#   Primary-Backup-optimized.yaml  v4.0.0
+#   优化目标：规则优先级、可维护性、匹配精度与故障可恢复性
 #   架构 / 安全 / 性能 / 易用 / 灵活 / 可维护
 # ================================================================
 
 # ──────────────────────────────────────────────
 #  基础端口/全局配置
-#  安全优化：API 仅绑定本机，强密码，TLS 指纹
 # ──────────────────────────────────────────────
 port: 7890
 socks-port: 7891
@@ -27,13 +25,13 @@ ipv6: true
 unified-delay: true
 tcp-concurrent: true
 
-# [安全] TLS 客户端指纹，降低流量特征被识别风险
+# [安全] TLS 客户端指纹
 global-client-fingerprint: chrome
 
-# [安全] 进程匹配模式：严格模式，仅匹配明确规则
+# [安全] 进程匹配模式：严格模式
 find-process-mode: strict
 
-# [性能] 连接保活，减少重建开销
+# [性能] 连接保活
 keep-alive-idle: 10
 keep-alive-interval: 15
 
@@ -49,27 +47,27 @@ geodata-loader: standard
 # 1. 机场订阅配置（双机场物理隔离）
 proxy-providers:
   下载机场:
-    url: "此处填写下载机场订阅地址"
+    url: "此处填入机场订阅地址"
     type: http
     interval: 86400
-    exclude-filter: 流量|账号|剩余|到期|过期|测试|试用|TG|群|官网|Expire|APP|官方|异常|邮箱|防|卸载|@|距离|DIRECT|直接连接|邀请|返利|循环|客服|网站|网址|获取|订阅|下次|版本|官址|备用|已用|联系|工单|贩卖|倒卖|国内|地址|频道|无法|说明|使用|提示|特别|访问|支持|教程|关注|更新|作者|加入|USE|USED|TOTAL|EXPIRE|EMAIL|Panel|Channel|Author|Traffic|GB
+    exclude-filter: 流量|账号|剩余|到期|过期|测试|试用|TG|群|官网|Expire|APP|官方|异常|邮箱|防|卸载|@|距离|DIRECT|直接连接|邀请|返利|循环|客服|网站|网址|获取|订阅|下次|版本|官址|备用|已用|联系|工单|贩卖|倒卖|国内|地址|频道|无法|说明|使用|提示|特别|访问|支持|教程|关注|更新|作者|加入|USE|USED|TOTAL|EXPIRE|EMAIL|Panel|Channel|Author|Traffic|GB|香港|台湾
     health-check:
       enable: true
       url: https://www.gstatic.com/generate_204
-      interval: 300
+      interval: 150
       timeout: 3000
       expected-status: 204
       lazy: false
 
   AI机场:
-    url: "此处填写AI机场订阅地址"
+    url: "此处填入机场订阅地址"
     type: http
     interval: 86400
     exclude-filter: 流量|账号|剩余|到期|过期|测试|试用|TG|群|官网|Expire|APP|官方|异常|邮箱|防|卸载|@|距离|DIRECT|直接连接|邀请|返利|循环|客服|网站|网址|获取|订阅|下次|版本|官址|备用|已用|联系|工单|贩卖|倒卖|国内|地址|频道|无法|说明|使用|提示|特别|访问|支持|教程|关注|更新|作者|加入|USE|USED|TOTAL|EXPIRE|EMAIL|Panel|Channel|Author|Traffic|GB
     health-check:
       enable: true
       url: https://www.gstatic.com/generate_204
-      interval: 300
+      interval: 150
       timeout: 3000
       expected-status: 204
       lazy: false
@@ -206,10 +204,20 @@ fb-tpl: &fb
   interval: 300
   timeout: 3000
 
-ut-tpl: &ut
+# 下载机场：更积极地寻找低延迟节点
+dl-ut-tpl: &dl-ut
   type: url-test
   url: https://www.gstatic.com/generate_204
-  interval: 300
+  interval: 180
+  timeout: 3000
+  tolerance: 15
+  lazy: false
+
+# AI机场：适度自动择优，避免频繁切换影响 AI 会话稳定性
+ai-ut-tpl: &ai-ut
+  type: url-test
+  url: https://www.gstatic.com/generate_204
+  interval: 120
   timeout: 3000
   tolerance: 10
   lazy: false
@@ -351,7 +359,7 @@ proxy-groups:
     use: [下载机场]
     exclude-filter: "直连|拒绝"
   - name: 所有-下载自动
-    <<: *ut
+    <<: *dl-ut
     use: [下载机场]
     exclude-filter: "直连|拒绝"
 
@@ -364,7 +372,7 @@ proxy-groups:
     use: [下载机场]
     filter: *fhk
   - name: 香港-下载自动
-    <<: *ut
+    <<: *dl-ut
     use: [下载机场]
     filter: *fhk
 
@@ -377,7 +385,7 @@ proxy-groups:
     use: [下载机场]
     filter: *ftw
   - name: 台湾-下载自动
-    <<: *ut
+    <<: *dl-ut
     use: [下载机场]
     filter: *ftw
 
@@ -390,7 +398,7 @@ proxy-groups:
     use: [下载机场]
     filter: *fjp
   - name: 日本-下载自动
-    <<: *ut
+    <<: *dl-ut
     use: [下载机场]
     filter: *fjp
 
@@ -403,7 +411,7 @@ proxy-groups:
     use: [下载机场]
     filter: *fsg
   - name: 新加坡-下载自动
-    <<: *ut
+    <<: *dl-ut
     use: [下载机场]
     filter: *fsg
 
@@ -416,7 +424,7 @@ proxy-groups:
     use: [下载机场]
     filter: *fkr
   - name: 韩国-下载自动
-    <<: *ut
+    <<: *dl-ut
     use: [下载机场]
     filter: *fkr
 
@@ -429,7 +437,7 @@ proxy-groups:
     use: [下载机场]
     filter: *fus
   - name: 美国-下载自动
-    <<: *ut
+    <<: *dl-ut
     use: [下载机场]
     filter: *fus
 
@@ -442,7 +450,7 @@ proxy-groups:
     use: [下载机场]
     filter: *fuk
   - name: 英国-下载自动
-    <<: *ut
+    <<: *dl-ut
     use: [下载机场]
     filter: *fuk
 
@@ -455,7 +463,7 @@ proxy-groups:
     use: [下载机场]
     filter: *foth
   - name: 其他-下载自动
-    <<: *ut
+    <<: *dl-ut
     use: [下载机场]
     filter: *foth
 
@@ -470,7 +478,7 @@ proxy-groups:
     use: [AI机场]
     exclude-filter: "直连|拒绝"
   - name: 所有-AI自动
-    <<: *ut
+    <<: *ai-ut
     use: [AI机场]
     exclude-filter: "直连|拒绝"
 
@@ -483,7 +491,7 @@ proxy-groups:
     use: [AI机场]
     filter: *fhk
   - name: 香港-AI自动
-    <<: *ut
+    <<: *ai-ut
     use: [AI机场]
     filter: *fhk
 
@@ -496,7 +504,7 @@ proxy-groups:
     use: [AI机场]
     filter: *ftw
   - name: 台湾-AI自动
-    <<: *ut
+    <<: *ai-ut
     use: [AI机场]
     filter: *ftw
 
@@ -509,7 +517,7 @@ proxy-groups:
     use: [AI机场]
     filter: *fjp
   - name: 日本-AI自动
-    <<: *ut
+    <<: *ai-ut
     use: [AI机场]
     filter: *fjp
 
@@ -522,7 +530,7 @@ proxy-groups:
     use: [AI机场]
     filter: *fsg
   - name: 新加坡-AI自动
-    <<: *ut
+    <<: *ai-ut
     use: [AI机场]
     filter: *fsg
 
@@ -535,7 +543,7 @@ proxy-groups:
     use: [AI机场]
     filter: *fkr
   - name: 韩国-AI自动
-    <<: *ut
+    <<: *ai-ut
     use: [AI机场]
     filter: *fkr
 
@@ -548,7 +556,7 @@ proxy-groups:
     use: [AI机场]
     filter: *fus
   - name: 美国-AI自动
-    <<: *ut
+    <<: *ai-ut
     use: [AI机场]
     filter: *fus
 
@@ -561,7 +569,7 @@ proxy-groups:
     use: [AI机场]
     filter: *fuk
   - name: 英国-AI自动
-    <<: *ut
+    <<: *ai-ut
     use: [AI机场]
     filter: *fuk
 
@@ -574,7 +582,7 @@ proxy-groups:
     use: [AI机场]
     filter: *foth
   - name: 其他-AI自动
-    <<: *ut
+    <<: *ai-ut
     use: [AI机场]
     filter: *foth
 
@@ -584,7 +592,13 @@ proxy-groups:
 #  优化：Apple-CN 前移至 Apple 之前
 # ──────────────────────────────────────────────
 rules:
-  # 物理防泄漏 WebRTC
+  # ================================================================
+  # 规则优先级：防泄漏/屏蔽 → 私有/金融直连 → 国内直连
+  #           → 专用业务规则 → 通用代理/国内兜底 → MATCH
+  #  原则：更具体的业务规则优先；IP 规则尽量 no-resolve
+  # ================================================================
+
+  # 0. 物理防泄漏 / WebRTC / STUN
   - AND,((NETWORK,UDP),(DST-PORT,3478)),REJECT
   - DOMAIN-KEYWORD,webrtc,REJECT
   - DOMAIN-KEYWORD,stun,REJECT
@@ -594,7 +608,18 @@ rules:
   - DOMAIN-SUFFIX,stun3.l.google.com,REJECT
   - DOMAIN-SUFFIX,stun4.l.google.com,REJECT
 
-  # 1. 银行/支付/政务/风控系统 强制直连
+  # 1. 测试规则：保持高优先级，避免被其他规则抢先匹配
+  - RULE-SET,Test / Domain,Test
+
+  # 2. 屏蔽规则优先，避免被后续代理/直连规则覆盖
+  - RULE-SET,Block / Domain,Block
+
+  # 3. 私有网络直连
+  - RULE-SET,Private / Domain,国内
+
+  # 4. 国内银行 / 支付 / 政务 / 风控
+  # category-bank-cn 比 DOMAIN-KEYWORD,bank 更精确，降低误匹配
+  - RULE-SET,Bank-CN / Domain,DIRECT
   - DOMAIN-SUFFIX,tongdun.net,DIRECT
   - DOMAIN-SUFFIX,ishumei.com,DIRECT
   - DOMAIN-SUFFIX,geetest.com,DIRECT
@@ -625,9 +650,8 @@ rules:
   - DOMAIN-SUFFIX,cebbank.com,DIRECT
   - DOMAIN-SUFFIX,hxb.com.cn,DIRECT
   - DOMAIN-SUFFIX,psbc.com,DIRECT
-  - DOMAIN-KEYWORD,bank,DIRECT
 
-  # 2. 国内核心基础服务直连
+  # 5. 国内核心基础服务
   - DOMAIN-SUFFIX,10086.cn,DIRECT
   - DOMAIN-SUFFIX,10010.com,DIRECT
   - DOMAIN-SUFFIX,189.cn,DIRECT
@@ -650,9 +674,7 @@ rules:
   - DOMAIN-SUFFIX,tplinkcloud.com,DIRECT
   - DOMAIN-SUFFIX,heislands.com,DIRECT
 
-  # 3. 远程规则集（IP 规则包含 no-resolve）
-  - RULE-SET,Test / Domain,Test
-  - RULE-SET,Block / Domain,Block
+  # 6. AI 服务
   - RULE-SET,ChatGPT / Domain,ChatGPT
   - RULE-SET,Claude / Domain,Claude
   - RULE-SET,Meta AI / Domain,Meta AI
@@ -661,19 +683,28 @@ rules:
   - RULE-SET,Gemini / Domain,Gemini
   - RULE-SET,Groq / Domain,Groq
   - RULE-SET,Grok / Domain,Grok
-  - RULE-SET,Reddit / Domain,Reddit
+
+  # 7. 开发 / 社交 / 通讯
   - RULE-SET,GitHub / Domain,GitHub
+  - RULE-SET,Reddit / Domain,Reddit
   - RULE-SET,Telegram / Domain,Telegram
   - RULE-SET,Telegram / IP,Telegram,no-resolve
   - RULE-SET,WhatsApp / Domain,WhatsApp
   - RULE-SET,Facebook / Domain,Facebook
-  # [修复] Apple-CN 前移：国内 Apple 域名先匹配直连，避免被全局 Apple 规则代理
-  - RULE-SET,Apple-CN / Domain,Apple
+
+  # 8. Apple：国内 Apple 先直连，其他 Apple 再进入代理组
+  - RULE-SET,Apple-CN / Domain,DIRECT
   - RULE-SET,Apple / Domain,Apple
+
+  # 9. Microsoft / 云与平台
   - RULE-SET,Microsoft / Domain,Microsoft
+
+  # 10. 加密货币
   - RULE-SET,OKX / Domain,Crypto
   - RULE-SET,Bybit / Domain,Crypto
   - RULE-SET,Binance / Domain,Crypto
+
+  # 11. 视频 / 音乐 / 流媒体
   - RULE-SET,BiliBili / Domain,BiliBili
   - RULE-SET,YouTube / Domain,YouTube
   - RULE-SET,TikTok / Domain,TikTok
@@ -686,6 +717,8 @@ rules:
   - RULE-SET,Popcorn / Domain,Popcorn
   - RULE-SET,HBO / Domain,HBO
   - RULE-SET,Spotify / Domain,Spotify
+
+  # 12. 游戏 / 硬件
   - RULE-SET,Steam / Domain,Steam
   - RULE-SET,Epic / Domain,Games
   - RULE-SET,EA / Domain,Games
@@ -693,15 +726,19 @@ rules:
   - RULE-SET,UBI / Domain,Games
   - RULE-SET,PlayStation / Domain,Games
   - RULE-SET,Nintendo / Domain,Games
-  - RULE-SET,Google / Domain,Google
-  - RULE-SET,Google / IP,Google,no-resolve
   - RULE-SET,Nvidia / Domain,Nvidia
-  - RULE-SET,Proxy / Domain,国外
-  - RULE-SET,Globe / Domain,国外
+
+  # 13. 国内规则集兜底：放在通用代理规则之前
   - RULE-SET,Direct / Domain,国内
   - RULE-SET,China / Domain,国内
   - RULE-SET,China / IP,国内,no-resolve
-  - RULE-SET,Private / Domain,国内
+
+  # 14. 通用代理规则
+  - RULE-SET,Proxy / Domain,国外
+  - RULE-SET,Globe / Domain,国外
+
+
+  # 16. 最终兜底
   - MATCH,其他
 
 # ──────────────────────────────────────────────
@@ -714,6 +751,7 @@ rule-anchor:
 
 rule-providers:
   Test / Domain: {<<: *class, url: "https://fastly.jsdelivr.net/gh/liandu2024/clash@main/list/Check.list"}
+  Bank-CN / Domain: {<<: *domain, url: "https://fastly.jsdelivr.net/gh/metacubex/meta-rules-dat@meta/geo/geosite/category-bank-cn.mrs"}
   ChatGPT / Domain: {<<: *domain, url: "https://fastly.jsdelivr.net/gh/metacubex/meta-rules-dat@meta/geo/geosite/openai.mrs"}
   Claude / Domain: {<<: *class, url: "https://fastly.jsdelivr.net/gh/blackmatrix7/ios_rule_script@master/rule/Clash/Claude/Claude.list"}
   Meta AI / Domain: {<<: *class, url: "https://fastly.jsdelivr.net/gh/liandu2024/clash@main/list/MetaAi.list"}
